@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('pet_id')->unsigned();
             $table->integer('quantity');
             $table->dateTime('shipDate');
+            $table->boolean('complete')->default(false);
             $table->timestamps();
 
         });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'first_name', 'last_name', 'username', 'email', 'phone', 'status',
     ];
 
     /**
@@ -29,4 +29,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    public function getFullNameAttribute()
+    {
+        return implode(' ', [$this->first_name, $this->last_name]);
+    }
 }
