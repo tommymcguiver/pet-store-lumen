@@ -1,0 +1,32 @@
+version: '2'
+services:
+  pet.server:
+    build:
+      context: ../../
+      dockerfile: .docker/local/Dockerfile
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_URL=http://localhost/
+      - DB_HOST=pet.database
+      - DB_PASSWORD=secret
+      - DB_PORT=3306
+      - DB_DATABASE=pet_store_db
+      - DB_USERNAME=jumbo
+    ports:
+      - "8080:80"
+    volumes:
+      - ../../:/var/www/html
+      - ./apache/sites-available:/etc/apache2/sites-available
+      - ./apache/sites-available:/etc/apache2/sites-enabled
+  pet.database:
+    image: mysql:5.7.22
+    environment:
+        - MYSQL_USER=jumbo
+        - MYSQL_PASSWORD=secret
+        - MYSQL_ROOT_PASSWORD=secret
+        - MYSQL_DATABASE=pet_store_db
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - "33061:3306"

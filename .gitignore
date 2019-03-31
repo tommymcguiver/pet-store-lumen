@@ -1,0 +1,10 @@
+/node_modules
+/vendor
+/public/storage
+.env
+
+.docker/local/mysql
+.docker/local/docker-compose.yml
+
+access.log
+error.log
