@@ -17,13 +17,11 @@ class CreatePetsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->bigInteger('category_id')->unsigned();
-            $table->bigInteger('status_id')->unsigned();
-            $table->timestamps();
+            $table->string('status');
         });
 
         Schema::table('pets', function (Blueprint $table) {
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('status_id')->references('id')->on('pet_statuses');
+            $table->foreign('category_id')->references('id')->on('pet_categories');
         });
     }
 
@@ -36,7 +34,6 @@ class CreatePetsTable extends Migration
     {
         Schema::table('pets', function (Blueprint $table) {
             $table->dropForeign(['category_id']);
-            $table->dropForeign(['status_id']);
         });
         Schema::dropIfExists('pets');
     }

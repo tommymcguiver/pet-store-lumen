@@ -15,18 +15,15 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('status_id')->unsigned();
+            $table->string('status');
             $table->bigInteger('pet_id')->unsigned();
             $table->integer('quantity');
-            $table->dateTime('shipDate');
+            $table->string('ship_date');
             $table->boolean('complete')->default(false);
-            $table->timestamps();
-
         });
 
         Schema::table('orders', function (Blueprint $table) {
             $table->foreign('pet_id')->references('id')->on('pets');
-            $table->foreign('status_id')->references('id')->on('order_statuses');
         });
     }
 
@@ -39,7 +36,6 @@ class CreateOrdersTable extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign(['pet_id']);
-            $table->dropForeign(['status_id']);
         });
 
         Schema::dropIfExists('orders');

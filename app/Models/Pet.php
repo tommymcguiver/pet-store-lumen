@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\{Tag, Order, PetCategory, PetStatus};
+use App\Models\{Tag, Image, Order, PetCategory};
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany};
 
@@ -17,11 +18,18 @@ class Pet extends Model
     protected $table = 'pets';
 
     /**
+     * Disable eloquent's default database timestamps
+     *
+     * @var boolean
+     */
+    public $timestamps = false;
+    
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'status'];
 
     /**
      * Get the order that this pet is associated with
@@ -44,16 +52,6 @@ class Pet extends Model
     }
 
     /**
-     * Get the status that this pet belongs to
-     *
-     * @return BelongsTo
-     */
-    public function status()
-    {
-        return $this->belongsTo(PetStatus::class);
-    }
-
-    /**
      * The tags that belong to the pet
      *
      * @return BelongsToMany
@@ -61,5 +59,37 @@ class Pet extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    /**
+     * Get the images that belong to this pet
+     *
+     * @return HasMAny
+     */
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    /**
+     * Scope the pets by status
+     *
+     * @param Builder $query
+     * @param array $status
+     * @return Builder
+     */
+    public function scopeByStatus($query, array $status)
+    {
+        return $query->whereIn('status', $status);
+    }
+
+    /**
+     * Count by status
+     *
+     */
+    public function scopeInventory($query)
+    {
+        return $query->select(DB::raw('status, count(*) as quantity'))
+                     ->groupBy('status');
     }
 }

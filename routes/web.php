@@ -11,6 +11,46 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->post('pet', [
+    'uses' => 'PetController@store'
+]);
+
+// $router->put('pet[/{pet}]', [
+//     'uses' => 'PetController@update'
+// ]);
+
+$router->get('pet/findByStatus', [
+    'uses' => 'PetController@findByStatus'
+]);
+
+$router->get('pet/{id}', [
+    'uses' => 'PetController@show'
+]);
+
+$router->post('pet/{id}', [
+    'uses' => 'PetController@update'
+]);
+
+$router->delete('pet/{id}', [
+    'uses' => 'PetController@destroy'
+]);
+
+$router->post('pet/{id}/uploadImage', [
+    'uses' => 'PetController@upload',
+]);
+
+$router->get('store/inventory', [
+    'uses' => 'StoreController@inventory',
+]);
+
+$router->post('store/order', [
+    'uses' => 'StoreController@order',
+]);
+
+$router->get('store/order/{id}', [
+    'uses' => 'StoreController@findOrder',
+]);
+
+$router->delete('store/order/{id}', [
+    'uses' => 'StoreController@destroy',
+]);

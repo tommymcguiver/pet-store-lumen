@@ -28,7 +28,7 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['pet_id', 'quantity', 'ship_date', 'complete'];
+    protected $fillable = ['pet_id', 'quantity', 'ship_date', 'complete', 'status'];
 
     /**
      * The attributes that should be cast to native types.
@@ -37,8 +37,7 @@ class Order extends Model
      */
     protected $casts = [
         'quantity' => 'integer',
-        'ship_date' => 'datetime',
-        'complete' => 'coolean'
+        'complete' => 'boolean'
     ];
 
     /**
@@ -49,15 +48,5 @@ class Order extends Model
     public function pet()
     {
         return $this->belongsTo(Pet::class);
-    }
-
-    /**
-     * Get the status that this order is associated with
-     *
-     * @return BelongsTo
-     */
-    public function status()
-    {
-        return $this->belongsTo(OrderStatus::class, 'status_id');
     }
 }

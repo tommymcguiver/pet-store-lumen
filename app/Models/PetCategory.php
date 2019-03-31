@@ -14,7 +14,7 @@ class PetCategory extends Model
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'pet_categories';
 
     /**
      * Disable eloquent's default database timestamps
@@ -22,7 +22,7 @@ class PetCategory extends Model
      * @var boolean
      */
     public $timestamps = false;
-    
+
     /**
      * The attributes that are mass assignable.
      *

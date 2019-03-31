@@ -42,6 +42,9 @@ RUN apt-get update && apt-get install -y git zip unzip \
 WORKDIR /var/www/html
 COPY --from=backend /app /var/www/html
 
+RUN a2enmod rewrite \
+  && service apache2 restart
+
 RUN chgrp -R www-data /var/www/html/storage \
   && chmod -R ug+rwx /var/www/html/storage
 
