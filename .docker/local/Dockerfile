@@ -35,13 +35,19 @@ RUN echo $TZ > /etc/timezone && dpkg-reconfigure -f noninteractive tzdata
 COPY .docker/local/apache/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
 RUN ln -sf /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
-# Install packages required to run composer properly
-RUN apt-get update && apt-get install -y git zip unzip \
-  && docker-php-ext-install pdo_mysql mbstring
+RUN apt-get update \
+    && apt-get install -y \
+        git \
+        zip \
+        unzip \
+    && docker-php-ext-install \
+        pdo_mysql \
+        mbstring
 
 WORKDIR /var/www/html
 COPY --from=backend /app /var/www/html
 
+# Enable mod_rewrite and restart Apache
 RUN a2enmod rewrite \
   && service apache2 restart
 

@@ -8,15 +8,15 @@ services:
       - APP_ENV=local
       - APP_DEBUG=true
       - APP_URL=http://localhost/
+      - DB_CONNECTION=mysql
       - DB_HOST=pet.database
-      - DB_PASSWORD=secret
-      - DB_PORT=3306
       - DB_DATABASE=pet_store_db
       - DB_USERNAME=jumbo
+      - DB_PASSWORD=secret
+      - DB_PORT=3306
     ports:
       - "8080:80"
     volumes:
-      - ../../:/var/www/html
       - ./apache/sites-available:/etc/apache2/sites-available
       - ./apache/sites-available:/etc/apache2/sites-enabled
   pet.database:
